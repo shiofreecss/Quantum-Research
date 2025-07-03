@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Algorithm Calculator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-atom"></i> Quantum Algorithm Calculator</h1>
+                <p>Advanced quantum computing calculations and simulations</p>
+            </div>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="shor">Shor's Algorithm</button>
+            <button class="tab-btn" data-tab="grover">Grover's Algorithm</button>
+            <button class="tab-btn" data-tab="deutsch">Deutsch-Jozsa</button>
+            <button class="tab-btn" data-tab="simon">Simon's Algorithm</button>
+            <button class="tab-btn" data-tab="qft">Quantum Fourier Transform</button>
+            <button class="tab-btn" data-tab="vqe">VQE</button>
+        </nav>
+
+        <main class="main-content">
+            <!-- Shor's Algorithm Tab -->
+            <div class="tab-content active" id="shor">
+                <div class="algorithm-card">
+                    <h2><i class="fas fa-key"></i> Shor's Algorithm - Integer Factorization</h2>
+                    <p class="description">Factor large integers using quantum period finding</p>
+                    
+                    <div class="input-group">
+                        <label for="shor-number">Number to Factor (N):</label>
+                        <input type="number" id="shor-number" placeholder="Enter number (e.g., 15, 21, 35)" min="4" max="10000">
+                        <button class="btn primary" onclick="runShorAlgorithm()">
+                            <i class="fas fa-calculator"></i> Factor Number
+                        </button>
+                    </div>
+                    
+                    <div class="results" id="shor-results"></div>
+                    <div class="complexity-info">
+                        <h4>Algorithm Information:</h4>
+                        <p><strong>Discovered:</strong> Peter Shor (1994)</p>
+                        <p><strong>Purpose:</strong> Factor large integers exponentially faster than classical algorithms</p>
+                        <p><strong>Key Insight:</strong> Uses quantum period finding to reduce factoring to finding the period of a^x mod N</p>
+                        <p><strong>Applications:</strong> Breaking RSA encryption, cryptanalysis</p>
+                        <p><strong>Classical Complexity:</strong> O(exp(n^(1/3))) - Sub-exponential (General Number Field Sieve)</p>
+                        <p><strong>Quantum Complexity:</strong> O(n³) - Polynomial time</p>
+                        <p><strong>Qubits Required:</strong> ~2n qubits for n-bit number</p>
+                        <p><strong>Circuit Depth:</strong> O(n³) quantum gates</p>
+                        <p><strong>Success Probability:</strong> High with polynomial repetitions</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grover's Algorithm Tab -->
+            <div class="tab-content" id="grover">
+                <div class="algorithm-card">
+                    <h2><i class="fas fa-search"></i> Grover's Algorithm - Database Search</h2>
+                    <p class="description">Quadratic speedup for unstructured search</p>
+                    
+                    <div class="input-group">
+                        <label for="grover-items">Number of Items (N):</label>
+                        <input type="number" id="grover-items" placeholder="Total items in database" min="2" max="1000000">
+                        
+                        <label for="grover-marked">Marked Items (M):</label>
+                        <input type="number" id="grover-marked" placeholder="Number of target items" min="1" max="1000">
+                        
+                        <button class="btn primary" onclick="runGroverAlgorithm()">
+                            <i class="fas fa-search"></i> Calculate Search
+                        </button>
+                    </div>
+
+                    <div class="results" id="grover-results"></div>
+                    <div class="complexity-info">
+                        <h4>Algorithm Information:</h4>
+                        <p><strong>Discovered:</strong> Lov Grover (1996)</p>
+                        <p><strong>Purpose:</strong> Search unsorted databases with quadratic speedup over classical algorithms</p>
+                        <p><strong>Key Insight:</strong> Amplitude amplification rotates the quantum state toward marked items</p>
+                        <p><strong>Applications:</strong> Database search, optimization, satisfiability problems</p>
+                        <p><strong>Classical Complexity:</strong> O(N) - Linear search through all items</p>
+                        <p><strong>Quantum Complexity:</strong> O(√N) - Quadratic speedup</p>
+                        <p><strong>Optimal Iterations:</strong> π/4 × √(N/M) where M is marked items</p>
+                        <p><strong>Qubits Required:</strong> log₂(N) qubits to represent database</p>
+                        <p><strong>Success Probability:</strong> ~100% with optimal iterations</p>
+                        <p><strong>Geometric Interpretation:</strong> Rotation in 2D subspace spanned by marked and unmarked states</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deutsch-Jozsa Algorithm Tab -->
+            <div class="tab-content" id="deutsch">
+                <div class="algorithm-card">
+                    <h2><i class="fas fa-balance-scale"></i> Deutsch-Jozsa Algorithm</h2>
+                    <p class="description">Determine if a function is constant or balanced</p>
+                    
+                    <div class="input-group">
+                        <label for="deutsch-bits">Number of Input Bits (n):</label>
+                        <input type="number" id="deutsch-bits" placeholder="Input bits (1-10)" min="1" max="10">
+                        
+                        <label for="deutsch-function">Function Type:</label>
+                        <select id="deutsch-function">
+                            <option value="constant-0">Constant (always 0)</option>
+                            <option value="constant-1">Constant (always 1)</option>
+                            <option value="balanced">Balanced</option>
+                        </select>
+                        
+                        <button class="btn primary" onclick="runDeutschJozsa()">
+                            <i class="fas fa-balance-scale"></i> Test Function
+                        </button>
+                    </div>
+                    
+                    <div class="results" id="deutsch-results"></div>
+                    <div class="complexity-info">
+                        <h4>Algorithm Information:</h4>
+                        <p><strong>Discovered:</strong> David Deutsch (1985), extended by Deutsch-Jozsa (1992)</p>
+                        <p><strong>Purpose:</strong> Determine if a Boolean function is constant or balanced with certainty</p>
+                        <p><strong>Key Insight:</strong> Quantum parallelism evaluates function on all inputs simultaneously</p>
+                        <p><strong>Applications:</strong> Function analysis, quantum algorithm design, oracle separation</p>
+                        <p><strong>Classical Complexity:</strong> O(2^(n-1) + 1) - Up to half the inputs plus one</p>
+                        <p><strong>Quantum Complexity:</strong> O(1) - Single function evaluation</p>
+                        <p><strong>Qubits Required:</strong> n + 1 qubits (n for input, 1 ancilla)</p>
+                        <p><strong>Circuit Depth:</strong> O(1) - Constant depth circuit</p>
+                        <p><strong>Success Probability:</strong> 100% - Deterministic result</p>
+                        <p><strong>Historical Significance:</strong> First quantum algorithm to show exponential speedup</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simon's Algorithm Tab -->
+            <div class="tab-content" id="simon">
+                <div class="algorithm-card">
+                    <h2><i class="fas fa-puzzle-piece"></i> Simon's Algorithm</h2>
+                    <p class="description">Find hidden period in black-box functions</p>
+                    
+                    <div class="input-group">
+                        <label for="simon-bits">Number of Bits (n):</label>
+                        <input type="number" id="simon-bits" placeholder="Input bits (2-8)" min="2" max="8">
+                        
+                        <label for="simon-secret">Secret String (s):</label>
+                        <input type="text" id="simon-secret" placeholder="Binary string (e.g., 101)" pattern="[01]+">
+                        
+                        <button class="btn primary" onclick="runSimonAlgorithm()">
+                            <i class="fas fa-puzzle-piece"></i> Find Period
+                        </button>
+                    </div>
+                    
+                    <div class="results" id="simon-results"></div>
+                    <div class="complexity-info">
+                        <h4>Algorithm Information:</h4>
+                        <p><strong>Discovered:</strong> Daniel Simon (1994)</p>
+                        <p><strong>Purpose:</strong> Find hidden periods in black-box functions with exponential speedup</p>
+                        <p><strong>Key Insight:</strong> Exploits quantum interference to extract period information</p>
+                        <p><strong>Applications:</strong> Cryptanalysis, hidden subgroup problems, inspired Shor's algorithm</p>
+                        <p><strong>Classical Complexity:</strong> O(2^(n/2)) - Birthday paradox bound</p>
+                        <p><strong>Quantum Complexity:</strong> O(n) - Linear in problem size</p>
+                        <p><strong>Expected Queries:</strong> n - 1 quantum queries to oracle</p>
+                        <p><strong>Qubits Required:</strong> 2n qubits (n input, n output)</p>
+                        <p><strong>Success Probability:</strong> High with linear number of measurements</p>
+                        <p><strong>Mathematical Foundation:</strong> Linear algebra over GF(2) finite fields</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quantum Fourier Transform Tab -->
+            <div class="tab-content" id="qft">
+                <div class="algorithm-card">
+                    <h2><i class="fas fa-wave-square"></i> Quantum Fourier Transform</h2>
+                    <p class="description">Quantum analog of discrete Fourier transform</p>
+                    
+                    <div class="input-group">
+                        <label for="qft-qubits">Number of Qubits (n):</label>
+                        <input type="number" id="qft-qubits" placeholder="Qubits (1-10)" min="1" max="10">
+                        
+                        <label for="qft-state">Input State Vector:</label>
+                        <input type="text" id="qft-state" placeholder="e.g., 1,0,0,0 or 1,1,1,1">
+                        
+                        <button class="btn primary" onclick="runQFT()">
+                            <i class="fas fa-wave-square"></i> Apply QFT
+                        </button>
+                    </div>
+                    
+                    <div class="results" id="qft-results"></div>
+                    <div class="complexity-info">
+                        <h4>Algorithm Information:</h4>
+                        <p><strong>Discovered:</strong> Don Coppersmith (1994), formalized by various researchers</p>
+                        <p><strong>Purpose:</strong> Quantum analog of discrete Fourier transform for quantum states</p>
+                        <p><strong>Key Insight:</strong> Efficiently computes Fourier transform on quantum amplitudes</p>
+                        <p><strong>Applications:</strong> Period finding, Shor's algorithm, quantum phase estimation</p>
+                        <p><strong>Classical FFT:</strong> O(n × 2^n) operations on 2^n classical data</p>
+                        <p><strong>Quantum QFT:</strong> O(n²) quantum gates on n-qubit quantum state</p>
+                        <p><strong>Circuit Depth:</strong> O(n²) gate layers with nearest-neighbor connectivity</p>
+                        <p><strong>Qubits Required:</strong> n qubits for 2^n dimensional transform</p>
+                        <p><strong>Gate Types:</strong> Hadamard gates and controlled phase rotations</p>
+                        <p><strong>Measurement:</strong> Provides Fourier coefficients as measurement probabilities</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VQE Tab -->
+            <div class="tab-content" id="vqe">
+                <div class="algorithm-card">
+                    <h2><i class="fas fa-atom"></i> Variational Quantum Eigensolver (VQE)</h2>
+                    <p class="description">Find ground state energy of quantum systems</p>
+                    
+                    <div class="input-group">
+                        <label for="vqe-molecule">Molecule:</label>
+                        <select id="vqe-molecule">
+                            <option value="H2">H₂ (Hydrogen)</option>
+                            <option value="HeH+">HeH⁺ (Helium Hydride)</option>
+                            <option value="LiH">LiH (Lithium Hydride)</option>
+                            <option value="BeH2">BeH₂ (Beryllium Hydride)</option>
+                        </select>
+                        
+                        <label for="vqe-distance">Bond Distance (Å):</label>
+                        <input type="number" id="vqe-distance" placeholder="1.0" step="0.1" min="0.1" max="5.0">
+                        
+                        <button class="btn primary" onclick="runVQE()">
+                            <i class="fas fa-atom"></i> Calculate Energy
+                        </button>
+                    </div>
+                    
+                    <div class="results" id="vqe-results"></div>
+                    <div class="complexity-info">
+                        <h4>Algorithm Information:</h4>
+                        <p><strong>Discovered:</strong> Peruzzo et al. (2014), building on variational principles</p>
+                        <p><strong>Purpose:</strong> Find ground state energies of quantum systems using hybrid quantum-classical optimization</p>
+                        <p><strong>Key Insight:</strong> Combines quantum state preparation with classical optimization</p>
+                        <p><strong>Applications:</strong> Quantum chemistry, materials science, drug discovery, optimization</p>
+                        <p><strong>Classical Exact:</strong> O(4^n) - Exponential scaling with system size</p>
+                        <p><strong>VQE Scaling:</strong> Polynomial in measurements, problem-dependent accuracy</p>
+                        <p><strong>Ansatz Depth:</strong> Varies by molecular system and desired accuracy</p>
+                        <p><strong>Qubits Required:</strong> Typically 2-50 qubits for small molecules</p>
+                        <p><strong>Optimization:</strong> Classical optimizer (COBYLA, SPSA, gradient descent)</p>
+                        <p><strong>NISQ Ready:</strong> Designed for near-term quantum devices with limited coherence</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p><i class="fas fa-atom"></i> Quantum Algorithm Calculator - Advanced quantum computing simulations</p>
+                <p>Powered by <a href="https://beaver.foundation" target="_blank" rel="noopener noreferrer">Beaver Foundation</a></p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="quantum-math.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
